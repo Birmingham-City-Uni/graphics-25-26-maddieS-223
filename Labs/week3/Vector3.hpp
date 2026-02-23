@@ -13,6 +13,7 @@ public:
 	Vector3()
 		:x_(0), y_(0), z_(0)
 	{
+		x_ = 0; y_ = 0; z_ = 0;
 	}
 
 	// This constructor can be used to set the x, y and z components of a vector when it
@@ -21,6 +22,7 @@ public:
 	Vector3(float x, float y, float z)
 		:x_(x), y_(y), z_(z)
 	{
+		x_ = x; y_ = y; z_ = z;
 	}
 
 	// Implement this method to add two vectors.
@@ -51,14 +53,14 @@ public:
 
 	Vector3 cross(const Vector3& other) const
 	{
-		// YOUR CODE HERE
-		// Implement the cross product, following the formula from the slides.
+		Vector3 output(((x_ * other.z()) - (z_ * other.y())), ((x_ * other.z()) - (z_ * other.x())), ((x_ * other.y()) - (y_ * other.x())));
+		return output;
 	}
 
 	float dot(const Vector3& other) const
 	{
-		// YOUR CODE HERE
-		// Implement the dot product, following the formula from the slides.
+		float output((x_ * other.x()) + (y_ * other.y()) + (z_ * other.z()));
+		return output;
 	}
 
 	float length() const

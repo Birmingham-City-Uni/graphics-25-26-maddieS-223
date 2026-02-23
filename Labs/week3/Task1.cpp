@@ -35,17 +35,121 @@ void drawTriangle(std::vector<uint8_t>& image, int width, int height,
 	// YOUR CODE HERE
 	int minX = 0, minY = 0, maxX = 0, maxY = 0;
 
+	//min X
+	if (p0.x() <= p1.x())
+	{
+		if (p0.x() <= p2.x())
+		{
+			minX = p0.x();
+		}
+		else
+		{
+			minX = p2.x();
+		}
+	}
+	else
+	{
+		if (p1.x() <= p2.x())
+		{
+			minX = p1.x();
+		}
+		else
+		{
+			minX = p2.x();
+		}
+	}
+
+	//min Y
+	if (p0.y() <= p1.y())
+	{
+		if (p0.y() <= p2.y())
+		{
+			minY = p0.y();
+		}
+		else
+		{
+			minY = p2.y();
+		}
+	}
+	else
+	{
+		if (p1.y() <= p2.y())
+		{
+			minY = p1.y();
+		}
+		else
+		{
+			minY = p2.y();
+		}
+	}
+
+	//max X
+	if (p0.x() >= p1.x()) 
+	{
+		if (p0.x() >= p2.x()) 
+		{
+			maxX = p0.x();
+		}
+		else
+		{
+			maxX = p2.x();
+		}
+	}
+	else
+	{
+		if (p1.x() >= p2.x())
+		{
+			maxX = p1.x();
+		}
+		else
+		{
+			maxX = p2.x();
+		}
+	}
+
+	//maxY
+	if (p0.y() >= p1.y())
+	{
+		if (p0.y() >= p2.y())
+		{
+			maxY = p0.y();
+		}
+		else
+		{
+			maxY = p2.y();
+		}
+	}
+	else
+	{
+		if (p1.y() >= p2.y())
+		{
+			maxY = p1.y();
+		}
+		else
+		{
+			maxY = p2.y();
+		}
+	}
+
+
 	// Check your minX, minY, maxX and maxY values don't lie outside the image!
 	// This would cause errors if you attempt to draw there.
 	// That is, clamp these values so that 0 <= x < width and 0 <= y < height.
 
 	// YOUR CODE HERE
+	if (minX < 0 || maxX > width || minY < 0 || maxY > height)
+	{
+		throw std::runtime_error("Vector outside image bounds!");
+	}
 
 	// Find vectors going along two edges of the triangle
 	// from p0 to p1, and from p1 to p2.
 
 	// YOUR CODE HERE
 	Vector2 edge1, edge2;
+
+	edge1 = (p1 - p0);
+	edge2 = (p2 - p0);
 
 	// Find the area of the triangle using a cross product.
 	// Optional: You can use the sign of the cross product to see if this triangle is facing towards
@@ -55,6 +159,14 @@ void drawTriangle(std::vector<uint8_t>& image, int width, int height,
 
 	// YOUR CODE HERE
 	float triangleArea = 0.0f;
+
+	triangleArea = edge1.cross(edge2);
+	triangleArea = triangleArea / 2;
+
+	if (triangleArea < 0)
+	{
+		return;
+	}
 
 	// Now let's actually draw the triangle!
 	// We'll do a for loop over all pixels in the bounding box.
@@ -71,11 +183,27 @@ void drawTriangle(std::vector<uint8_t>& image, int width, int height,
 			float a1;
 			float a2;
 
+			a0 = (p - p1).cross(p2 - p1);
+			a0 = a0 / 2;
+			a0 = std::abs(a0);
+
+			a1 = (p - p0).cross(p2 - p0);
+			a1 = a1 / 2;
+			a1 = std::abs(a1);
+
+			a2 = (p - p0).cross(p1 - p0);
+			a2 = a2 / 2;
+			a2 = std::abs(a2);
+
 			// Find the barycentrics b0, b1, and b2 by dividing by triangle area.
 			// YOUR CODE HERE - do the division and find b0, b1, b2.
 			float b0;
 			float b1;
 			float b2;
+
+			b0 = a0 / triangleArea;
+			b1 = a1 / triangleArea;
+			b2 = a2 / triangleArea;
 
 			// Check if the sum of b0, b1, b2 is bigger than 1 (or ideally a number just over 1 
 			// to account for numerical error).
@@ -83,8 +211,14 @@ void drawTriangle(std::vector<uint8_t>& image, int width, int height,
 			// YOUR CODE HERE
 			float sum;
 
+			sum = b0 + b1 + b2;
+
+			if (sum <= 1.001)
+			{
+				setPixel(image, x, y, width, height, r, g, b, a);
+			}
+
 			// Now we're sure we're inside the triangle, and we can draw this pixel!
-			setPixel(image, x, y, width, height, r, g, b, a);
 		}
 }
 
@@ -143,7 +277,9 @@ int main()
 
 		// Task 3: Draw the bunny!
 		// Now you've finished your triangle drawing function, you'll see a red bunny, drawn using the code below:
-		drawTriangle(imageBuffer, width, height, p0, p1, p2, 255, 0, 0, 255);
+
+
+		drawTriangle(imageBuffer, width, height, p0, p1, p2, rand() % 256, rand() % 256, rand() % 256, 255);
 
 		// This is a bit boring. Try replacing this code to draw two different bunny types.
 
