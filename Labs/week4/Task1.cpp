@@ -142,7 +142,8 @@ void drawMesh(std::vector<unsigned char>& image, const Mesh& mesh,
 // Implement this function that makes a translation matrix
 Eigen::Matrix4f translationMatrix(const Eigen::Vector3f& t)
 {
-	// *** Your code here ***
+	// *** Your code here *** 
+
 	return Eigen::Matrix4f::Identity();
 }
 
@@ -186,6 +187,7 @@ int main()
 
 	// Subtask: Try making a 2D vector of ints using the template <> syntax.
 	// Is there a handy typedef for this too?
+	Eigen::Matrix<int, 2, 1> My2DVector;
 
 	// Matrices
 	// For the matrix sizes we'll commonly use (3x3 and 4x4) Eigen has typedefs for these too:
@@ -220,6 +222,7 @@ int main()
 	// Subtask 3: Try multiplying myThreeByThreeMatrix by myInverse
 	// Print out the result.
 	// Is it what you would expect?
+	Eigen::Matrix3f Mult = myThreeByThreeMatrix * myInverse;
 
 	// Final advanced tip: the .block<>() function
 	// Eigen has a .block method that's super useful for getting or setting a
