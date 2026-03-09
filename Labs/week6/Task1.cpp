@@ -38,6 +38,11 @@ Eigen::Matrix4f projectionMatrix(int height, int width, float horzFov = 70.f*M_P
 	float vertFov = 0.f;
 	// Now construct the matrix.
 	Eigen::Matrix4f projection;
+	projection <<
+		1 / tan(horzFov), 0, 0, 0,
+		0, 1 / tan((horzFov + height) / width), 0, 0,
+		0, 0, zFar / (zFar - zNear), (-zFar + zNear) / (zFar - zNear),
+		0, 0, 1, 0;
 	return projection;
 	// *** END YOUR CODE ***
 }
@@ -244,6 +249,22 @@ void drawMesh(std::vector<unsigned char>& image,
 		Eigen::Vector4f vClip1 = Eigen::Vector4f::Zero();
 		Eigen::Vector4f vClip2 = Eigen::Vector4f::Zero();
 
+		t.verts[0] = (worldToClip * vec3ToVec4(v0)).block<3, 1>(0, 0);
+		t.verts[1] = (worldToClip * vec3ToVec4(v1)).block<3, 1>(0, 0);
+		t.verts[2] = (worldToClip * vec3ToVec4(v2)).block<3, 1>(0, 0);
+
+		bool outClip;
+		outClip = outsideClipBox(vec3ToVec4(t.verts[0]));
+		if (outClip == 1) { return; }
+
+		outClip = outsideClipBox(vec3ToVec4(t.verts[1]));
+		if (outClip == 1) { return; }
+
+		outClip = outsideClipBox(vec3ToVec4(t.verts[2]));
+		if (outClip == 1) { return; }
+
+
+	
 		// Check that all 3 vertices are in the clip box (-1 to 1 in x, y and z) and if not,
 		// skip drawing this triangle.
 		// Hint: I've made a function outsideClipBox in LinAlg.hpp to help with this!
@@ -306,7 +327,11 @@ int main()
 
 	// The main important task = set up the worldToCamera and worldToClip matrices here!
 	// Set up worldToCamera, based on cameraToWorld above
-	Eigen::Matrix4f worldToCamera;
+	Eigen::Matrix4f worldToCamera = cameraToWorld.inverse; 
+
+
+
+
 	// Set up worldToClip, using the projection and worldToCamera matrices
 	Eigen::Matrix4f worldToClip;
 
