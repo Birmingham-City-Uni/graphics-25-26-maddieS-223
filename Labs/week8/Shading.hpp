@@ -1,5 +1,6 @@
 #pragma once
 #include <Eigen/Dense>
+#include <cmath>
 
 // Subtask 1: Implement the Reflect function in Shading.hpp, so you can find the reflected vector.
 /// <summary>
@@ -12,7 +13,8 @@ Eigen::Vector3f reflect(const Eigen::Vector3f& incoming, const Eigen::Vector3f& 
 {
 	// *** YOUR CODE HERE ***
 	// replace this with the reflected vector.
-	return Eigen::Vector3f::Zero();
+
+	return (incoming + 2 * fabsf(incoming.dot(normal)) * normal);
 	// *** END YOUR CODE ***
 }
 
@@ -30,16 +32,21 @@ float phongSpecularTerm(const Eigen::Vector3f& incomingLightDir, const Eigen::Ve
 {
 	// *** YOUR CODE HERE ***
 	// Find the reflected direction using the reflect function
-	Eigen::Vector3f reflectionDir = Eigen::Vector3f::Zero();
+	Eigen::Vector3f reflectionDir = reflect(incomingLightDir, normal);
+
+	Eigen::Vector3f halfVec = (incomingLightDir + viewDir) / 2;
+	halfVec = halfVec.normalized();
 
 	// Find dot product between reflected and view directions.
-	float reflectDotNorm = 0.f;
+	float reflectDotNorm = halfVec.dot(normal);
 
 	// Make sure dot product is non-negative (if it's less than 0, set it to 0!)
-	reflectDotNorm = 0.f;
+	if (reflectDotNorm < 0) {
+		reflectDotNorm = 0.f;
+	}
 
 	// Finally, raise to specular exponent and return.
-	return 0.f;
+	return (pow(reflectDotNorm, exponent));
 	// *** END YOUR CODE ***
 }
 
