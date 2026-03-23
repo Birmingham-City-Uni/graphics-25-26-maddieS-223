@@ -77,6 +77,8 @@ bool raySphereIntersection(const Ray& ray, const Sphere& sphere, Vector3f& inter
 	// If an intersection exists, set the value of "intersection" and "t", and return true!
 	// If no intersection is found, or the value of t is below minT, return false.
 
+	  
+
 	// Steps:
 	// 1. Find the value of A, B and C from the lecture slides.
 	// 2. Find the value of the discriminant B^2 - 4AC
