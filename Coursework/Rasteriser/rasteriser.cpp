@@ -12,6 +12,8 @@ int main()
 	std::vector<uint8_t> imageBuffer(height*width*nChannels);
 
     // **** Replace this bit with your lovely rasteriser code ****
+	
+
 
     // Set pixel values to Cyan
     for(int y = 0; y < height; ++y) 

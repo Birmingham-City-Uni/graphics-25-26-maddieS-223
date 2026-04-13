@@ -37,7 +37,7 @@ Eigen::Matrix4f projectionMatrix(int height, int width, float horzFov = 70.f*M_P
 	// First, work out vertical FoV based on the horizontal FoV:
 	float vertFov = 0.f;
 	// Now construct the matrix.
-	Eigen::Matrix4f projection;
+	Eigen::Matrix4f projection; 
 	projection <<
 		1 / tan(horzFov), 0, 0, 0,
 		0, 1 / tan((horzFov + height) / width), 0, 0,
@@ -327,14 +327,11 @@ int main()
 
 	// The main important task = set up the worldToCamera and worldToClip matrices here!
 	// Set up worldToCamera, based on cameraToWorld above
-	Eigen::Matrix4f worldToCamera = cameraToWorld.inverse; 
-
-
-
+	Eigen::Matrix4f worldToCamera = cameraToWorld.inverse();
 
 	// Set up worldToClip, using the projection and worldToCamera matrices
 	Eigen::Matrix4f worldToClip;
-
+	  
 	// *** END YOUR CODE ***
 
 	std::string bunnyFilename = "../models/stanford_bunny_texmapped.obj";
