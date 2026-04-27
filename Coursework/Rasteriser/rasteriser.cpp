@@ -1,5 +1,14 @@
 #include <iostream>
 #include <lodepng.h>
+#define _USE_MATH_DEFINES
+#include <math.h>
+#include "Image.hpp"
+#include "LinAlg.hpp"
+#include "Light.hpp"
+#include "Mesh.hpp"
+
+
+
 
 int main()
 {
@@ -13,6 +22,8 @@ int main()
 
     // **** Replace this bit with your lovely rasteriser code ****
 	
+	
+	 
 
 
     // Set pixel values to Cyan
