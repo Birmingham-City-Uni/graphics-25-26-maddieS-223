@@ -2,10 +2,7 @@
 #include <lodepng.h>
 #define _USE_MATH_DEFINES
 #include <math.h>
-#include "Image.hpp"
-#include "LinAlg.hpp"
-#include "Light.hpp"
-#include "Mesh.hpp"
+
 
 
 
@@ -22,6 +19,9 @@ int main()
 
     // **** Replace this bit with your lovely rasteriser code ****
 	
+	struct Colour {
+		uint8_t r, g, b, a;
+	};
 	
 	 
 
